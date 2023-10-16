@@ -15,6 +15,7 @@ const Usuario = require('./models/Usuario')
 
 // Import Routes
 const pensamentosRoutes = require('./routes/pensamentosRoutes')
+const authRoutes = require('./routes/authRoutes')
 
 // Import Controllers
 const PensamentoController = require('./controllers/PensamentoController');
@@ -71,6 +72,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/pensamentos', pensamentosRoutes)
+app.use('/', authRoutes)
 
 // Página inicial
 app.get('/', PensamentoController.mostrarTodos)
