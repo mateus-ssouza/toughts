@@ -10,8 +10,14 @@ const app = express()
 const conn = require('./db/conn')
 
 // Models
-const Pensamento = require('./models/Pensamento');
-const Usuario = require('./models/Usuario');
+const Pensamento = require('./models/Pensamento')
+const Usuario = require('./models/Usuario')
+
+// Import Routes
+const pensamentosRoutes = require('./routes/pensamentosRoutes')
+
+// Import Controllers
+const PensamentoController = require('./controllers/PensamentoController');
 
 // Template engine
 app.engine('handlebars', exphbs.engine())
@@ -62,6 +68,12 @@ app.use((req, res, next) => {
 
     next()
 })
+
+// Routes
+app.use('/pensamentos', pensamentosRoutes)
+
+// Página inicial
+app.get('/', PensamentoController.mostrarTodos)
 
 conn
     .sync()
