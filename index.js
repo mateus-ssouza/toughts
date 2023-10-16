@@ -48,7 +48,7 @@ app.use(
             secure: false,
             maxAge: 360000,
             expires: new Date(Date.now() + 360000),
-            httpOnly: true
+            httpOnly: true,
         }
     })
 )
@@ -63,7 +63,7 @@ app.use(flash())
 app.use((req, res, next) => {
     // Se usuário estiver na sessão, passar suas 
     // informações na resposta da requisição
-    if (req.session.userId) {
+    if (req.session.userid) {
         res.locals.session = req.session
     }
 
