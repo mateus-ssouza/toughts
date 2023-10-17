@@ -77,4 +77,36 @@ module.exports = class PensamentoController {
             console.log(`Ocorreu um erro: ${err}`)
         }
     }
+
+    static async editarPensamento(req, res) {
+        const id = req.params.id
+
+        const pensamento = await Pensamento.findOne({ where: { id: id }, raw: true })
+
+        res.render('pensamentos/editar', { pensamento })
+    }
+
+    static async atualizarPensamento(req, res) {
+
+        const id = req.body.id
+
+        const pensamento = {
+            titulo: req.body.titulo,
+            UsuarioId: req.session.userid
+        }
+
+        try {
+
+            await Pensamento.update(pensamento, { where: { id: id } })
+
+            req.flash('message', 'Pensamento editado com sucesso!')
+
+            req.session.save(() => {
+                res.redirect('/pensamentos/dashboard')
+            })
+
+        } catch (err) {
+            console.log(`Ocorreu um erro: ${err}`)
+        }
+    }
 }
