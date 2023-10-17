@@ -16,6 +16,7 @@ module.exports = class PensamentoController {
         if (!usuario) {
             req.flash('message', 'Email não cadastrado!')
             res.render('auth/login')
+            return
         }
 
         // Verificar senha
