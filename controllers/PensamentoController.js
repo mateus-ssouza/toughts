@@ -25,7 +25,13 @@ module.exports = class PensamentoController {
 
         const pensamentos = usuario.Pensamentos.map((resultado) => resultado.dataValues)
 
-        res.render('pensamentos/dashboard', { pensamentos })
+        let listaVaziaPensamentos = false
+
+        if (pensamentos.length === 0) {
+            listaVaziaPensamentos = true
+        }
+
+        res.render('pensamentos/dashboard', { pensamentos, listaVaziaPensamentos })
     }
 
     static criarPensamento(req, res) {
@@ -49,6 +55,24 @@ module.exports = class PensamentoController {
                 res.redirect('/pensamentos/dashboard')
             })
 
+        } catch (err) {
+            console.log(`Ocorreu um erro: ${err}`)
+        }
+    }
+
+    static async removerPensamento(req, res) {
+        const id = req.body.id
+        const usuarioId = req.session.userid
+
+        try {
+
+            await Pensamento.destroy({ where: { id: id, UsuarioId: usuarioId } })
+
+            req.flash('message', 'Pensamento removido com sucesso!')
+
+            req.session.save(() => {
+                res.redirect('/pensamentos/dashboard')
+            })
         } catch (err) {
             console.log(`Ocorreu um erro: ${err}`)
         }
